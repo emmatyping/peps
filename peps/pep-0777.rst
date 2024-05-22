@@ -1,0 +1,100 @@
+PEP: 777
+Title: Reinventing the Wheel (Wheel 2.0)
+Author: Ethan Smith <ethan@ethanhs.me>
+Status: Draft
+Type: Standards Track
+Topic: Packaging
+Created: 20-May-2024
+
+- Should mention https://discuss.python.org/t/speculative-wheel-2-0-and-migration-strategies/21600/13
+
+Abstract
+========
+
+[A short (~200 word) description of the technical issue being addressed.]
+
+
+Motivation
+==========
+
+Wheels are by far the most popular Python package format. Every day PyPi serves millions of wheels
+to tens of thousands of users. While wheels are extremely popular, the format has experienced
+little change since the original specification was released in 2012. Modern usage of wheels,
+including shipping large binary libraries and installation on complex user platforms, are
+difficult to handle using the current wheel specification.
+
+Additionally, while changing the wheel major version. 
+
+Rationale
+=========
+
+[Describe why particular design decisions were made.]
+
+
+Specification
+=============
+
+[Describe the syntax and semantics of any new language feature.]
+
+
+Backwards Compatibility
+=======================
+
+Backwards compatibility is a central issue in this PEP. It is critical to proceed cautiously
+when handling a major version increment in the wheel major version. Below is a non-normative
+recommendation of how the packaging community can handle a bump in the wheel major version without
+
+- MUST maintain ``.dist-info`` directory at the end of a zip file, so old tools can read the metadata if the name format is kept the same.
+- SHOULD keep the structure of wheel names the same... maybe add a major version in the name?
+``{distribution}-{version}(-{build tag})?-{python tag}-{abi tag}-{platform tag}.whl``
+- How to allow for old and new wheels to co-exist? Do we want that? It might make it easier for
+the transition, but how to handle the names being the same? Could we add a wheel major version to the name?
+- zstd in 3.14 would mean wheel 2 in 2030. But if we do wheel 2 without, it'll take longer because using zstd
+requires stdlib inclusion. Still will take at least 3 years for ecosystem reach of updating (estimate).
+- Could maybe make the data and contents tar files that can be compressed by any format, pip would fail if not supported
+- Would lead to things breaking a lot more frequently.
+- Fundamental issue is if we want to change anything that requires installers to recognize new behavior, that's a breaking change.
+- Need to read up on other package formats to see what to do
+
+
+Security Implications
+=====================
+
+[How could a malicious user take advantage of this new feature?]
+
+
+How to Teach This
+=================
+
+[How to teach users, new and experienced, how to apply the PEP to their work.]
+
+
+Reference Implementation
+========================
+
+[Link to any existing implementation and details about its state, e.g. proof-of-concept.]
+
+
+Rejected Ideas
+==============
+
+[Why certain ideas that were brought while discussing this PEP were not ultimately pursued.]
+
+
+Open Issues
+===========
+
+[Any points that are still being decided/discussed.]
+
+
+Footnotes
+=========
+
+[A collection of footnotes cited in the PEP, and a place to list non-inline hyperlink targets.]
+
+
+Copyright
+=========
+
+This document is placed in the public domain or under the
+CC0-1.0-Universal license, whichever is more permissive.
